@@ -23,7 +23,6 @@
     - php56w-soap
     - php56w-fpm
     - redis.x86_64
-    - letsencrypt
     - python-passlib
 
 - name: Creates nginx configs directory

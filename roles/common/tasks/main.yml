@@ -12,6 +12,7 @@
     ssh_key_file: .ssh/id_rsa
     state: present
     shell: /bin/bash       # Defaults to /bin/bash
+    groups: nginx
     system: no             # Defaults to no
     createhome: yes        # Defaults to yes
     home: /home/mage  # Defaults to /home/<username
@@ -30,7 +31,7 @@
     validate: 'visudo -cf %s'
 
 - name: Add sudoers users to wheel group
-  user: name=mage groups=wheel append=yes state=present createhome=yes
+  user: name=mage groups=wheel append=yes state=absent createhome=yes
 
 - name: Add repository
   yum_repository:
