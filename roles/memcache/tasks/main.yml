@@ -1,5 +1,11 @@
-- include_tasks: memcache_deb.yml
+- name: Install memcached
+  apt: name={{ item }} state=present
+  with_items:
+    - memcached
   when: ansible_os_family == "Debian"
 
-- include_tasks: memcache_rpm.yml
+- name: Install memcached
+  yum: name={{ item }} state=present
+  with_items:
+    - memcached
   when: ansible_os_family == "RedHat"
