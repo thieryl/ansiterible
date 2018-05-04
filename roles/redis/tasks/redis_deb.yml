@@ -1,8 +1,8 @@
 ---
-- name: Install memcached 
+- name: Install redis
   apt: name={{ item }} state=present
   with_items:
-    - memcached
+    - redis
 
-- name: Start memcached
-  service: name=memcached state=started enabled=yes
+- name: Start redis
+  service: name=redis state=started enabled=yes
