@@ -1,5 +1,5 @@
-- include_tasks: roles/memcache/tasks/memcache_deb.yml
+- include_tasks: memcache_deb.yml
   when: ansible_os_family == "Debian"
 
-- include_tasks: roles/memcache/tasks/memcache_rpm.yml
+- include_tasks: memcache_rpm.yml
   when: ansible_os_family == "RedHat"
