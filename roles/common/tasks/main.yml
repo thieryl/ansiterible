@@ -46,5 +46,6 @@
   yum: name={{item}} state=present
   with_items:
    - mysql
+   - htop
    #- python2-yum
   become: yes

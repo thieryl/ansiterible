@@ -1,19 +1,19 @@
 ---
 - name: Create Folder
   command: mkdir -p /var/www/{{ server_hostname }}/
-  
+
 - name: Download magento
   get_url: url=http://www.magentocommerce.com/downloads/assets/{{ magento_version }}/magento-{{ magento_version }}.tar.gz dest=/var/www/{{ server_hostname }}/magento-{{ magento_version }}.tar.gz
 
 - name: Download Sample
   get_url: url=http://www.magentocommerce.com/downloads/assets/1.6.1.0/magento-sample-data-1.6.1.0.tar.gz dest=/var/www/{{ server_hostname }}/magento-sample-data-1.6.1.0.tar.gz
-  
+
 - name: Extract Magento
   command: chdir=/var/www/{{ server_hostname }}/ tar xvf magento-{{ magento_version }}.tar.gz
 
 - name: Extract Sample
   command: chdir=/var/www/{{ server_hostname }}/ tar xvf magento-sample-data-1.6.1.0.tar.gz
- 
+
 - name: Move Media Sample
   shell: chdir=/var/www/{{ server_hostname }}/ mv magento-sample-data-1.6.1.0/media/* magento/media/
 
@@ -22,12 +22,12 @@
 
 - name: Create {{ group }} group
   group: name={{ group }} state=present
-  
+
 - name: Add user {{ user }}
   user: name={{ user }} group={{ group }} home=/var/www/{{ server_hostname }}
 
 - name: Change ownership of magento installation 1
-  file: path=/var/www/{{ server_hostname }}/ owner=www-data group=www-data state=directory recurse=yes
+  file: path=/var/www/{{ server_hostname }}/ owner=mage group=mage state=directory recurse=yes
 
 - name: Change ownership of magento installation 2
   shell: chdir=/var/www/{{ server_hostname }}/ find . -type f -exec chmod 644 {} \;
@@ -46,7 +46,7 @@
 
 - name: Mage Setup
   shell: chdir=/var/www/{{ server_hostname }}/ ./mage mage-setup .
-  
+
 - name: Mage Stable State
   shell: chdir=/var/www/{{ server_hostname }}/ ./mage config-set preferred_state stable
 
@@ -65,7 +65,7 @@
 
 - name: Refresh Index
   shell: chdir=/var/www/{{ server_hostname }}/ php -f shell/indexer.php reindexall
-  
+
 - name: Remove TAR files
   shell: chdir=/var/www/{{ server_hostname }}/ rm -rf magento-{{ magento_version }}.tar.gz magento-sample-data-1.6.1.0.tar.gz
 
@@ -74,7 +74,7 @@
 
 - name: Remove Magento Folder and Sample Folder
   shell: chdir=/var/www/{{ server_hostname }}/ rm -rf magento/ magento-sample-data-1.6.1.0/
-  
+
 - name: restart nginx
   service: name=nginx state=restarted
 
@@ -82,4 +82,4 @@
   service: name=php5-fpm state=restarted
 
 - name: restart Varnish
-  service: name=varnish state=restarted    
+  service: name=varnish state=restarted
